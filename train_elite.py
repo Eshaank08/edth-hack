@@ -240,8 +240,12 @@ def main() -> None:
     )
     
     logger.info("Fitting feature extractor (this may take several minutes)...")
+    # Temporarily disable augmentation for feature extraction fitting
+    train_dataset.augment = False
     train_waveforms, _ = train_dataset[:]
     feature_extractor.fit(train_waveforms)
+    # Re-enable augmentation for training
+    train_dataset.augment = True
     logger.info("Elite feature extraction setup complete!")
     
     # Initialize model
